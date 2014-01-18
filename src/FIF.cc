@@ -23,6 +23,7 @@
 #include "Task.h"
 #include "Environment.h"
 #include "TPTImage.h"
+#include "OpenSlideImage.h"
 
 #ifdef HAVE_KAKADU
 #include "KakaduImage.h"
@@ -163,6 +164,14 @@ void FIF::run( Session* session, const string& src ){
     if( imtype=="tif" || imtype=="tiff" || imtype=="ptif" || imtype=="dat" ){
       if( session->loglevel >= 2 ) *(session->logfile) << "FIF :: TIFF image requested" << endl;
       *session->image = new TPTImage( test );
+    }
+#pragma mark Adding in basic openslide functionality
+    else if (imtype=="svs" || imtype=="ndpi" || imtype=="mrxs" || imtype=="vms" || imtype=="scn" || imtype=="bif") {
+
+      if( session->loglevel >= 2 ) *(session->logfile) << "FIF :: OpenSlide image requested" << endl;
+
+      *session->image = new OpenSlideImage( test );
+
     }
 #ifdef HAVE_KAKADU
     else if( imtype=="jpx" || imtype=="jp2" || imtype=="j2k" ){

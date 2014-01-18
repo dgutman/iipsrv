@@ -143,6 +143,7 @@ class OBJ : public Task {
   void vertical_views();
   void min_max_values();
   void metadata( std::string field );
+  void image_properties();
 
 };
 

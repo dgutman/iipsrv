@@ -22,7 +22,7 @@
 #include "Task.h"
 #include <iostream>
 #include <algorithm>
-
+#include <sstream>
 
 using namespace std;
 
@@ -70,7 +70,9 @@ void OBJ::run( Session* s, const std::string& a )
   else if( argument == "horizontal-views" ) horizontal_views();
   // Minimum and maximum provided by TIFF tags
   else if( argument == "min-max-sample-values" ) min_max_values();
-
+  //Images from OpenSlide
+  else if ( argument == "image-properties") image_properties();
+  
   // Colorspace
   /* The request can have a suffix, which we don't need, so do a
      like scan
@@ -293,6 +295,19 @@ void OBJ::metadata( string field ){
   }
 
 
+}
+
+
+void OBJ::image_properties() {
+    map<const std::string, std::string> metadata_map = (*session->image)->metadata;
+      map<const std::string, std::string>::iterator it;
+      for ( it=metadata_map.begin() ; it != metadata_map.end(); it++ ) {
+          stringstream ss (stringstream::in | stringstream::out);
+          ss << (*it).first;
+          ss << ":";
+          ss << (*it).second;
+          session->response->addResponse( ss.str().c_str() );
+      }
 }
 
 
