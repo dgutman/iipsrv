@@ -21,6 +21,7 @@
 
 #include "View.h"
 #include <cmath>
+#include <iostream>
 
 
 
@@ -94,6 +95,7 @@ double View::getScale(){
 
   unsigned int rw;
   unsigned int rh;
+  std::cout << "width " << width << " , requested_height " << requested_height << " , height " << height; 
   if( requested_width == 0 && requested_height > 0 ){
     rw = static_cast<unsigned int>( width * requested_height / height );
   }
