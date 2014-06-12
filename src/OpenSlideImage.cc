@@ -23,10 +23,6 @@ void OpenSlideImage::openImage() throw (std::string) {
     updateTimestamp(filename);
 
 
-
-    /*bool canOpen = openslide_can_open(filename.c_str());
-    if (!canOpen) throw string("Can't open '" + filename + "' with OpenSlide");
-	*/
     Timer timer;
     timer.start();
 
@@ -37,7 +33,6 @@ void OpenSlideImage::openImage() throw (std::string) {
 		loadImageInfo(currentX, currentY);
 		readProperties(osr);
 	}
-    //readAssociatedImages("label");
 
 #ifdef DEBUG
     logfile << "OpenSlide :: openImage() :: " << timer.getTime() << " microseconds" << endl;
@@ -133,33 +128,6 @@ void OpenSlideImage::loadImageInfo(int x, int y) throw (std::string) {
       min.push_back( (float)sminvalue[i] );
       max.push_back( (float)smaxvalue[i] );
     }
-    //    const char * const *property_names = openslide_get_property_names(osr);
-    //    while (*property_names) {
-    //        const char *name = *property_names;
-    //        const char *value = openslide_get_property_value(osr, name);
-    //        metadata[name] = value;
-    //#ifdef DEBUG
-    //        logfile << "property : " << name << " -> " << value << endl;
-    //#endif
-    //        property_names++;
-    //    }
-
-
-    // read associated images
-    //    const char * const *associated_image_names = openslide_get_associated_image_names(osr);
-    //    while (*associated_image_names) {
-    //        int64_t w;
-    //        int64_t h;
-    //        const char *name = *associated_image_names;
-    //        openslide_get_associated_image_dimensions(osr, name, &w, &h);
-    //
-    //#ifdef DEBUG
-    //        logfile << "associated image: " << name << "(" << w << " x " << h << ")" << endl;
-    //#endif
-    //
-    //        associated_image_names++;
-    //    }
-
 }
 
 /// Overloaded function for closing a TIFF image
@@ -224,15 +192,9 @@ RawTile OpenSlideImage::getTile(int seq, int ang, unsigned int res, int layers, 
         throw tile_no.str();
     }
 
-
-   
-
     double openslide_zoom = this->numResolutions - 1 - res;
 
     int pos_factor = pow(2, openslide_zoom); 
-
-
-   
 
      // Alter the tile size if it's in the last column
     if ((tile % ntlx == ntlx - 1) && (rem_x != 0)) {
@@ -255,8 +217,8 @@ RawTile OpenSlideImage::getTile(int seq, int ang, unsigned int res, int layers, 
     rawtile.dataLength = tw * th* channels;
     rawtile.filename = getImagePath();
     rawtile.timestamp = timestamp;
-    //rawtile.memoryManaged = 0;
-    //rawtile.padded = false;
+    rawtile.memoryManaged = 0;
+    rawtile.padded = false;
 
     char* dest =  (char*) malloc(tw * th * channels * sizeof(char));
     if (!dest) throw string("FATAL : getTile >> allocation memory ERROR");
@@ -266,9 +228,6 @@ RawTile OpenSlideImage::getTile(int seq, int ang, unsigned int res, int layers, 
 
 #ifdef DEBUG
     logfile << "OpenSlide :: getTile() :: " << timer.getTime() << " microseconds" << endl << flush;
-#endif
-
-#ifdef DEBUG
     logfile << "TILE RENDERED" << std::endl;
 #endif
 
