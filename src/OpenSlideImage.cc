@@ -265,7 +265,7 @@ void OpenSlideImage::read(double zoom, long w, long h, long x, long y, void* des
 #ifdef DEBUG
     logfile << "FREE BUFFER..." << std::endl;
 #endif
-    delete(buffer);
+    delete[](buffer);
 #ifdef DEBUG
     logfile << "DONE..." << std::endl;
 #endif
