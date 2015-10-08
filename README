@@ -1,32 +1,23 @@
 -----------------------------------------------------------------------
        IIPImage - High Resolution Streaming Imaging Server
+	Forked by Cytomine
 -----------------------------------------------------------------------
 
 
 ABOUT:
 -----
-IIPImage is an advanced high-performance feature-rich imaging server system for web-based streamed viewing and zooming of ultra high-resolution 
-images. It is designed to be fast and bandwidth-efficient with low processor and memory requirements. The system can comfortably handle gigapixel size images as 
-well as advanced image features such as both 8 and 16 bit depths, CIELAB colorimetric images and scientific imagery such as multispectral images, image sequences and 3D surface topologies.
+IIPImage is an advanced high-performance feature-rich imaging server system for web-based streamed viewing and zooming of ultra high-resolution images.
+It is designed to be fast and bandwidth-efficient with lowhdepths, CIELAB colorimetric images and scientific imagery such as multispectral images, image sequences and 3D surface topologies.
 
+See https://github.com/ruven/iipsrv for the official version.
+
+This fork was made to add support for the OpenSlide librairy (http://openslide.org/).
+By this way, iipsrv support more image formats as ndpi, mrax, svs, etc.
 
 FEATURES:
 -------- 
-* Fast lightweight embeddable FastCGI server module
-* High performance with inbuilt configurable cache
-* Support for gigapixel images
-* Dynamic JPEG export of whole or regions of images at any resolution
-* 8, 16 and 32 bit image support
-* CIELAB support with automatic CIELAB->sRGB colour space conversion
-* JPEG2000 support
-* Supports Zoomify and DeepZoom protocols
-* Multispectral image support
-* Dynamic watermarking
-* Memcached support
-* 3D panoramic views 
-* Dynamic hillshading of 3D surface topologies
-* Dynamic decoder module capability
-
+* See https://github.com/ruven/iipsrv for the official features.
+* Openslide support
 
 
 DOCUMENTATION:
@@ -53,7 +44,7 @@ See COPYING.FCGI for licensing information for these libraries.
 
 REQUIREMENTS:
 ------------
-Requirements: libtiff, zlib and the IJG JPEG development libraries.
+Requirements: openslide, libtiff, zlib and the IJG JPEG development libraries.
 Optional: libmemcached (for Memcached) and Kakadu (for JPEG2000)
 
 Plus, of course, an fcgi-enabled web server. The server has been successfully
@@ -69,23 +60,14 @@ Example server configurations are shown below.
 
 BUILDING:
 -------- 
-The standard autoconf build process should work fine. If you want to allow
-dynamic loading of 3rd party image decoders, use the configure option
---enable-modules. There is a version of the FCGI development library included
-in this distribution. The configure script will use this bundled version
-unless it detects one already installed. Alternatively, you may specify the
-path using --with-fcgi-incl=<path> and --with-fcgi-lib=<path>.
-
-If this is an SVN or Git development version, first generate the autoconfigure
-environment using autogen.sh:
+First generate the autoconfigure environment using autogen.sh:
 ./autogen.sh
 
+Then, execute the following commands :
+
 Otherwise for release versions, use configure directly:
-
-eg.
-./configure
-make
-
+- LDFLAGS="-L/usr/local/lib -lopenslide" CPPFLAGS="-I/usr/local/include/openslide" ./configure
+- make
 
 
 OPTIONAL LIBRARIES: MEMCACHED:
