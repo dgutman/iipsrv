@@ -219,7 +219,7 @@ RawTile OpenSlideImage::getTile(int seq, int ang, unsigned int res, int layers, 
 
     // Create our raw tile buffer and initialize some values
     //rawtile.data = NULL;
-    rawtile.dataLength = tw * th* channels / sizeof(unsigned char);
+    rawtile.dataLength = tw * th* channels;
     rawtile.filename = getImagePath();
     rawtile.timestamp = timestamp;
     rawtile.data = new unsigned char[tw*th*channels];
